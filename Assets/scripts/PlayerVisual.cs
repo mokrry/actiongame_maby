@@ -30,17 +30,13 @@ public class PlayerVisual : MonoBehaviour
             _animator.SetBool(IS_RUNNING, playerController.IsRunning);
 
             // Вызываем поворот (отражение) спрайта
-            AdjustPlayerFacingDirection();
+            RotatePlayer();
         }
     }
 
-    private void AdjustPlayerFacingDirection()
+    private void RotatePlayer()
     {
-        Vector2 mousePos = playerController._inputReader.GetMousePosition();
-        Vector2 playerPos = playerController.GetPlayerScreenPosition();
-
-        // Если мышь левее игрока — отражаем спрайт
-        if (mousePos.x < playerPos.x)
+        if (playerController.IsWatchingLeft)
         {
             spriteRenderer.flipX = true;
         }

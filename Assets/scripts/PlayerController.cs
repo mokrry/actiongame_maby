@@ -8,9 +8,11 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rb;
     public InputReader _inputReader;
     private bool _isRunning;
+    private bool _isWatchingLeft;
 
     // Свойство для чтения статуса бега
     public bool IsRunning => _isRunning;
+    public bool IsWatchingLeft => _isWatchingLeft;
 
     private void Awake()
     {
@@ -21,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        AdjustPlayerFacingDirection();
         // Получаем вектор движения из InputReader
         Vector2 movement = _inputReader != null ? _inputReader.MoveVector : Vector2.zero;
 
@@ -48,4 +51,19 @@ public class PlayerController : MonoBehaviour
         return Vector2.zero;
     }
 
+    private void AdjustPlayerFacingDirection()
+    {
+        Vector2 mousePos = _inputReader.GetMousePosition();
+        Vector2 playerPos = GetPlayerScreenPosition();
+
+        // Если мышь левее игрока — отражаем спрайт
+        if (mousePos.x < playerPos.x)
+        {
+            _isWatchingLeft = true;
+        }
+        else
+        {
+            _isWatchingLeft = false;
+        }
+    }
 }
